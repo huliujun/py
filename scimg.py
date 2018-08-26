@@ -13,11 +13,11 @@ skip = 1
 start = 1
 
 if len(sys.argv) == 2 :
-    skip = sys.argv[1] 
+    skip = int(sys.argv[1])
 
 if len(sys.argv) == 3 :
-    skip = sys.argv[1]
-    start = sys.argv[2]
+    skip = int(sys.argv[1])
+    start = int(sys.argv[2])
 
 def mkdir(path):
  
@@ -53,7 +53,7 @@ for re in r.json()['res']['category']:
 
     # print re['name']
     # print re['id'] 
-    mkdir(u'../resource' + re['name'])
+    mkdir(u'../resource/' + re['name'])
     if re['name'] != u'1':
         
         # parm = {'category':re['id']}
@@ -64,7 +64,7 @@ for re in r.json()['res']['category']:
             for listRe in listR.json()['res']['vertical']:
                 if count >= start :
                     print '正在偷偷下载第 ' + str(count) + '张mm图片'
-                    with open(u'../resource' + re['name'] + '/' + re['name'] + '_' + listRe['id'] + '.jpg', 'wb') as f:
+                    with open(u'../resource/' + re['name'] + '/' + re['name'] + '_' + listRe['id'] + '.jpg', 'wb') as f:
                         f.write(requests.get(listRe['img']).content) 
                 else:
                     print '第' + str(count) + '个mm图片跳过'
