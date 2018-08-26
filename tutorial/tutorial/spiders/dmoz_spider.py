@@ -7,10 +7,19 @@ class DmozSpider(scrapy.Spider):
     name = "dmoz"
     allowed_domains = ["dmoz.org"]
     start_urls = [
-        "http://localhost/",
+        "https://www.ixigua.com/a6572060388043522568/#mid=100127439107",
     ]
 
+    # scrapy crawl dmoz
+
     def parse(self, response):
+        filename = response.url.split("/")[-2]
+        with open(filename, 'wb') as f:
+            print response.url
+            print filename
+            f.write(response.body)
+
+        exit
         print '------------------------------------------------------------------'
         # print response.body
         # print response.css('p')
