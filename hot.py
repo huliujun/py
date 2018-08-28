@@ -6,87 +6,65 @@ import MySQLdb
 import urllib2
 from bs4 import BeautifulSoup
 import datetime
+import lxml
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
+
 def get_soup(url):
-        res = urllib2.urlopen(url)
-        html = res.read()
-        soup = BeautifulSoup(html, 'html.parser', from_encoding='utf-8')
-        data = soup.find_all('a', attrs={'style': 'min-height: 100px;', 'target': '_blank'})
-        return data
+    a_all=[]
+    res = urllib2.urlopen(url)
+    html = res.read()
+    soup = BeautifulSoup(html, 'html.parser', from_encoding='utf-8')
+    p = soup.find_all('p', attrs={'class': 'developer'})
+    for a in p:
+        a_all.append(a.find('a'))
+    return a_all
 
 
-
-if len(sys.argv)==1:
-        now = datetime.datetime.now()
-        date = now.strftime('%Y%m%d')
+if len(sys.argv) == 1:
+    now = datetime.datetime.now()
+    date = now.strftime('%Y%m%d')
 else:
-        date = sys.argv[1]
+    date = sys.argv[1]
 
 print date
-urls=[                            
-        'https://www.chandashi.com/home/ranking/index/type/free/genre/0/country/cn.html?date='+date,
-        'https://www.chandashi.com/home/ranking/index/type/free/genre/6014/country/cn.html?date='+date,
-        'https://www.chandashi.com/home/ranking/index/type/free/genre/6002/country/cn.html?date='+date,
-        'https://www.chandashi.com/home/ranking/index/type/grossing/country/cn/date.html?date='+date,
-        'https://www.chandashi.com/home/ranking/index/type/grossing/genre/6014/country/cn.html?date='+date,
-        ]
-conn= MySQLdb.connect(
-        host='localhost',
-        port = 3306,
-        user='root',
-        passwd='123456',
-        db ='my_db',
-		charset='utf8',
-        )
+
+conn = MySQLdb.connect(
+    host='localhost',
+    port=3306,
+    user='root',
+    passwd='123456',
+    db='my_db',
+    charset='utf8',
+)
 cur = conn.cursor()
-conn.autocommit(1)#数据库自动提交
+conn.autocommit(1)  # 数据库自动提交
 j = 1
-for url in urls:
-        if j==1:
-                free = 1
-                type = 0
-                name = u'免费总榜'
-        elif j==2:
-                free = 1
-                type = 1
-                name = u'免费游戏榜'
-        elif j==3:
-                free = 1
-                type = 2
-                name = u'免费工具榜'
-        elif j==4:
-                free = 0
-                type = 0
-                name = u'畅销总榜'
-        else:
-                free = 0
-                type = 1
-                name = u'畅销游戏榜'
-        j=j+1
 
-        data = get_soup(url)
-        tmp = []
-        i = 1
-        for chr in data:
-                tu = (chr.string, i,free,type,date[0:4]+'-'+date[4:6]+'-'+date[6:8]+'-')
-                i = i + 1
-                tmp.append(tu)
-        tup = tuple(tmp)
-        #print tup
-        cur.executemany("insert into my_db.appstore_hot_bak (name,rank,free,type,date) values(%s,%s,%s,%s,%s)",tup)
-        print name+u'top200导入成功'
+json_config = [
+    {'free':1,'type':0,'name':u'免费总榜','url':'https://www.chandashi.com/home/ranking/index/type/free/genre/0/country/cn.html?date=' + date},
+    {'free':1,'type':1,'name':u'免费游戏榜','url':'https://www.chandashi.com/home/ranking/index/type/free/genre/6014/country/cn.html?date=' + date},
+    {'free':1,'type':2,'name':u'免费工具榜','url':'https://www.chandashi.com/home/ranking/index/type/free/genre/6002/country/cn.html?date=' + date},
+    {'free':0,'type':0,'name':u'畅销总榜','url':'https://www.chandashi.com/home/ranking/index/type/grossing/country/cn/date.html?date=' + date},
+    {'free':0,'type':0,'name':u'畅销游戏榜','url':'https://www.chandashi.com/home/ranking/index/type/grossing/genre/6014/country/cn.html?date=' + date}
+]
 
-        datamore = get_soup(url+'?view=more')
-        tmpm = []
-        im = 201
-        for chrm in datamore:
-                tum = (chrm.string, im,free,type,date[0:4]+'-'+date[4:6]+'-'+date[6:8]+'-')
-                im = im + 1
-                tmpm.append(tum)
-        tupm = tuple(tmpm)
-        #print tup
-        cur.executemany("insert into my_db.appstore_hot_bak (name,rank,free,type,date) values(%s,%s,%s,%s,%s)",tupm)
-        print name+u'更多导入成功'
+for value in json_config:
+    tmp = []
+    i = 1
+    a_all = get_soup(value['url'])
+    for a in a_all:
+        tu = (a.get('title'), a.string, i, value['free'], value['type'], date[0:4] + '-' + date[4:6] + '-' + date[6:8])
+        i = i + 1
+        tmp.append(tu)
+
+    a_all_more = get_soup(value['url'] + '&view=more')
+    for a in a_all_more:
+        tu = (a.get('title'), a.string, i, value['free'], value['type'], date[0:4] + '-' + date[4:6] + '-' + date[6:8])
+        i = i + 1
+        tmp.append(tu)
+    tup = tuple(tmp)
+    cur.executemany("insert into my_db.appstore_hot_bak (name,corp,rank,free,type,date) values(%s,%s,%s,%s,%s,%s)", tup)
+    print value['name'] + u'导入成功'
