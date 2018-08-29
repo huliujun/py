@@ -11,16 +11,6 @@ def jieba_seg(sentence):
     list = [x.word for x in result if x.flag not in ['x', 'r']]
     return list
 
-
-# 替换句子中的特殊字符
-def replace_new(sentence):
-    list_w = [",", ".", "，", "。", "？", "！", "……", "~", " ", "'", "(", ")", "*", "+", "-", "/"]
-    temp = sentence
-    for w in list_w:
-        temp = str(temp).replace(w, "")
-    return temp
-
-
 def file_name(file_dir):
     L = []
     for root, dirs, files in os.walk(file_dir):
@@ -49,12 +39,8 @@ print("处理的数据行数为：%d" % rows_num)
 
 for i in range(0, rows_num):  # 迭代 0 到 最后一行 之间的数字
     sentences = df.loc[i].values[0]
-    # new_s = replace_new(sentences)
-
     words_list = jieba_seg(sentences)
-
     for word in words_list:
-
         temp = words_num.get(word, 0)
         if (temp == 0):
             words_num[word] = 1
