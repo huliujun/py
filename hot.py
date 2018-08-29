@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-
+# python2
 import sys
 import MySQLdb
 import urllib2
@@ -28,7 +28,7 @@ conn = MySQLdb.connect(
 cur = conn.cursor()
 conn.autocommit(1)  # 数据库自动提交
 
-# 爬虫获取块
+# 爬虫函数
 def get_soup(url):
     a_all=[]
     res = urllib2.urlopen(url)

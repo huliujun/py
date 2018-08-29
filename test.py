@@ -5,9 +5,26 @@
 # import jieba.posseg as pseg
 import sys
 import os
+import urllib2
 
-if len(sys.argv) == 2 :
-    print sys.argv[1]
+from bs4 import BeautifulSoup
+
+
+
+res = urllib2.urlopen('http://localhost/index1.html')
+html = res.read()
+soup = BeautifulSoup(html, 'html.parser', from_encoding='utf-8')
+
+data= soup.find_all('p', attrs={'class': 'developer'})
+# data = soup.find_all('a', attrs={'style': 'min-height: 100px;', 'target': '_blank'})
+
+for data1 in data:
+    chr = data1.find('a')
+    print chr
+    print chr.string
+    print chr.get('title')
+
+
 # print(sys.argv[1])
 
 # seg_list = jieba.cut("我来到北京清华大学", cut_all=True)
@@ -35,34 +52,3 @@ if len(sys.argv) == 2 :
 # print grader_father
 
 
-def mkdir(path):
- 
-    # 去除首位空格
-    path=path.strip()
-    # 去除尾部 \ 符号
-    path=path.rstrip("\\")
- 
-    # 判断路径是否存在
-    # 存在     True
-    # 不存在   False
-    isExists=os.path.exists(path)
- 
-    # 判断结果
-    if not isExists:
-        # 如果不存在则创建目录
-        # 创建目录操作函数
-        os.makedirs(path) 
- 
-        print path+' 创建成功'
-        return True
-    else:
-        # 如果目录存在则不创建，并提示目录已存在
-        print path+' 目录已存在'
-        return False
- 
-
-# 调用函数
-mkdir('../mkpath')
-
-with open('../mkpath/abc.txt', 'wb') as f:
-    f.write('abc')
