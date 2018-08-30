@@ -19,12 +19,20 @@ git clone https://github.com/huliujun/py.git
 
 * 手机抓包软件推荐： [charles，猛搓去百度](https://www.baidu.com/s?ie=utf-8&wd=charles%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95)
 
+## 数据分析
+* numpy中文学习文档：[猛搓此连接](https://yiyibooks.cn/xx/NumPy_v111/index.html)
+
+* pandas中文学习文档：[猛搓此连接](https://yiyibooks.cn/dongyongping1015/pandas_0220/html/10min.html)
+
+* 利用Python进行数据分析(中文版)： [猛搓下载PDF](http://file3.data.weipan.cn/31580122/8477461aaf63578ae5957cb7381bb152b2b05612?ip=1535613055,101.86.117.219&ssig=FsOFPN2FJm&Expires=1535613655&KID=sae,l30zoo1wmz&fn=%E5%88%A9%E7%94%A8Python%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%EF%BC%8C%E4%B8%AD%E6%96%87%E7%89%88%EF%BC%88%E6%89%AB%E6%8F%8F%E7%89%88%EF%BC%89.pdf&se_ip_debug=101.86.117.219&from=1221134)
+
+
 ## 相关工具推荐
-* json格式化：[猛搓此连接](https://www.json.cn/
-   [猛搓此连接](http://www.bejson.com/)
+* json格式化：[猛搓此连接1](https://www.json.cn/)
+   [猛搓此连接2](http://www.bejson.com/)
    
 * 简单的git学习（对菜菜来说够了）：[猛搓此连接](http://www.bootcss.com/p/git-guide/)
-* git进阶：[猛搓此连接](https://git-scm.com/docs)
+* git进阶：[官方中文文档](https://git-scm.com/book/zh/v2)
 
 ## 学习案例
    按部就班系统学习枯燥无味，来几个案例给学习加点料
