@@ -6,6 +6,7 @@
 import sys
 import os
 import urllib2
+from lxml import etree
 
 from bs4 import BeautifulSoup
 
@@ -23,6 +24,14 @@ for data1 in data:
     print chr
     print chr.string
     print chr.get('title')
+
+selector = etree.HTML(html.decode('utf-8'))
+# 取div下直属的p的内容
+for p in selector.xpath('//p'):
+    print p.text
+
+
+
 
 
 # print(sys.argv[1])
