@@ -52,8 +52,8 @@ git clone https://github.com/huliujun/py.git
             ```
         * 下载目录：../resource(图片) ../mp4(视频)
    * 案例3：分词 将一些句子切出分词并统计
-        * 见Fenci.py
-        * 将需要分词的句子存放csv文件，脚本自动读取并输出xls文件的分词集，并逆序排列
+        * 见fenci/fen.py
+        * 将需要分词的句子存放在fenci/txt/文件夹，格式为txt，脚本自动读取该文件夹下所有txt文件，然后输分词集于fenci/result，并逆序排列分词
 
 ***
 *好好学习天天向上*
