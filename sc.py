@@ -19,18 +19,18 @@ def go(skip, start):
 
         for re in r.json()['res']['category']:
             if i == 0:
-                # mkdir(u'../mp4/video/' + re['name'])
-                mkdir(u'../mp4/view_video/' + re['name'])
+                mkdir(u'../resource/video/' + re['name'])
+                # mkdir(u'../resource/video_view/' + re['name'])
             parm = {'category': re['id'], 'skip': str(i * 30)}
             listR = requests.get(imgListURL, params=parm)
             for listRe in listR.json()['res']['videowp']:
                 if count >= start:
                     print u'正在偷偷下载第 ' + str(count) + u' 个视频， 分类为：' + re['name'] + u'， 深度为：' + str(i)
-                    # with open(u'../mp4/video/' + re['name'] + '/' + re['name'] + '_' + listRe['id'] + '.mp4', 'wb') as f:
-                    #     f.write(requests.get(listRe['video']).content)
-                    with open(u'../mp4/view_video/' + re['name'] + '/' + re['name'] + '_' + listRe['id'] + '.mp4',
-                              'wb') as f:
-                        f.write(requests.get(listRe['view_video']).content)
+                    with open(u'../resource/video/' + re['name'] + '/' + re['name'] + '_' + listRe['id'] + '.mp4', 'wb') as f:
+                        f.write(requests.get(listRe['video']).content)
+                    # with open(u'../resource/video_view/' + re['name'] + '/' + re['name'] + '_' + listRe['id'] + '.mp4',
+                    #           'wb') as f:
+                    #     f.write(requests.get(listRe['view_video']).content)
                 else:
                     print '第' + str(count) + u' 个视频跳过， 分类为：' + re['name'] + u'， 深度为：' + str(i)
                 count += 1

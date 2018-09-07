@@ -24,7 +24,7 @@ def go(skip, start):
         for re in r.json()['res']['category']:
             # 循环深度首次创建文件夹
             if i == 0:
-                mkdir(u'../resource/' + re['name'])
+                mkdir(u'../resource/img/' + re['name'])
             # 组合链接
             listR = requests.get('http://service.aibizhi.adesk.com/v1/vertical/category/' + re[
                 'id'] + '/vertical?adult=0&appid=com.lovebizhi.ipad&appver=5.1&appvercode=64&channel=ipicture&first=1&lan=zh-Hans-CN&limit=30&skip=' + str(
@@ -33,7 +33,7 @@ def go(skip, start):
             for listRe in listR.json()['res']['vertical']:
                 if count >= start:
                     print u'正在偷偷下载第 ' + str(count) + u' 张图片 分类为：' + re['name'] + u' 深度为：' + str(i)
-                    with open(u'../resource/' + re['name'] + '/' + re['name'] + '_' + listRe['id'] + '.jpg', 'wb') as f:
+                    with open(u'../resource/img/' + re['name'] + '/' + re['name'] + '_' + listRe['id'] + '.jpg', 'wb') as f:
                         f.write(requests.get(listRe['img']).content)
                 else:
                     print '第' + str(count) + u' 张图片跳过 分类为：' + re['name'] + u' 深度为：' + str(i)
